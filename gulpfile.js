@@ -65,11 +65,22 @@ gulp.task('copyHome', function() {
     .pipe(gulp.dest('dist/home'))
 })
 
+// Copying fonts
+gulp.task('copysw', function() {
+  return gulp.src('app/*.js')
+    .pipe(gulp.dest('dist/'))
+})
+
+gulp.task('copyIcons', function() {
+  return gulp.src('app/icon/*.*')
+    .pipe(gulp.dest('dist/icon'))
+})
+
 
 gulp.task('build', function(callback) {
   runSequence(
     'clean:dist',
-    ['useref','copyHome'],
+    ['useref','copyHome','copysw','copyIcons'],
     callback
   )
 })
@@ -79,7 +90,7 @@ gulp.task('close', function() {
   .pipe(styleInject())
   .pipe(deleteLines({
     'filters': [
-    /<link\s+rel=["']/i
+    /<link\s+rel=["']stylesheet["']\s/i
     ]
   }))
   .pipe(htmlmin({collapseWhitespace: true}))
